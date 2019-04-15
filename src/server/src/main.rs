@@ -1,55 +1,37 @@
+#[macro_use]
+extern crate specs_derive;
+
 use specs::prelude::*;
+use crate::entity::Id;
 
-#[derive(Debug)]
-struct Id(String);
+mod entity;
+mod economy;
 
-impl Component for Id {
-    type Storage = VecStorage<Self>;
-}
-
-#[derive(Debug)]
-struct Vel(f32);
-
-impl Component for Vel {
-    type Storage = VecStorage<Self>;
-}
-
-#[derive(Debug)]
-struct Pos(f32);
-
-impl Component for Pos {
-    type Storage = VecStorage<Self>;
-}
-
-struct SomeUsefulSystem;
-
-impl<'a> System<'a> for SomeUsefulSystem {
-    type SystemData = (ReadStorage<'a, Id>, WriteStorage<'a, Pos>, ReadStorage<'a, Vel>);
-
-    fn run(&mut self, (id, mut pos, vel): Self::SystemData) {
-        for (id, pos, vel) in (&id, &mut pos, &vel).join() {
-            println!("{:?}: {:?} += {:?}", id, pos.0, vel.0);
-            pos.0 += vel.0
-        }
-    }
-}
+use economy::*;
 
 fn main() {
     let mut world = World::new();
     world.register::<Id>();
-    world.register::<Pos>();
-    world.register::<Vel>();
+    world.register_economy_components();
 
-    world.create_entity().with(Id("1".to_string())).with(Vel(2.0)).with(Pos(0.0)).build();
-    world.create_entity().with(Id("2".to_string())).with(Vel(4.0)).with(Pos(1.6)).build();
-    world.create_entity().with(Id("3".to_string())).with(Vel(1.5)).with(Pos(5.4)).build();
+    let apple = Resource("apple".to_string());
 
-    world.create_entity().with(Pos(2.0)).build();
-
-    let mut dispatcher = DispatcherBuilder::new()
-        .with(SomeUsefulSystem, "useful", &[])
+    let apple_tree = world.create_entity()
+        .with(Id("apple_tree".to_string()))
+        .with(ResourceStorage(apple.clone(), ResourceAmount(10), 50)) // Tree can hold 50 apples
+        .with(ResourceProduction(apple.clone(), ResourceAmount(1)))
         .build();
 
+    let _apple_eater = world.create_entity()
+        .with(Id("apple_eater".to_string()))
+        .with(ResourceStorage(apple.clone(), ResourceAmount(0), 3)) // eater can hold 3 apples
+        .build();
+
+
+    let mut dispatcher = DispatcherBuilder::new()
+        .register_economy_systems()
+        .build();
+    
     dispatcher.setup(&mut world.res);
 
     let running = true;
@@ -57,6 +39,11 @@ fn main() {
     while running {
         dispatcher.dispatch(&mut world.res);
         world.maintain();
+
+        {
+            let tree_apple_storage = world.read_storage::<ResourceStorage>();
+            println!("Tree's apple storage: {:?}", tree_apple_storage.get(apple_tree).unwrap().0);
+        }
     }
 
 }
