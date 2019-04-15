@@ -5,4 +5,6 @@ authors = ["Allison Knauss <piper.pandemos@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+amethyst = "0.10.0"
 util = { path = "../util" }
+
