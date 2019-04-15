@@ -1,0 +1,8 @@
+[package]
+name = "client-template"
+version = "0.1.0"
+authors = ["Allison Knauss <piper.pandemos@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+util = { path = "../util" }

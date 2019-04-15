@@ -1,0 +1,22 @@
+[package]
+name = "sunrise"
+version = "0.1.0"
+authors = ["Allison Knauss <piper.pandemos@gmail.com>"]
+edition = "2018"
+
+[[bin]]
+name = "sunrise"
+path = "src/sunrise-entry-point/src/main.rs"
+
+[workspace]
+members = [
+	"src/util",
+	"src/aaa",
+	"src/telemetry",
+	"src/router",
+	"src/server",
+	"src/client-template",
+	"src/sunrise-entry-point",
+]
+
+[dependencies]
