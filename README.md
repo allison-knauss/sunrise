@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/allison-knauss/sunrise.svg?branch=master)](https://travis-ci.com/allison-knauss/sunrise)
+
 # sunrise
 Epic-scale game built in rust on amethyst
 
