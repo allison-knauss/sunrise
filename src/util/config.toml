@@ -1,1 +1,3 @@
 a = 3
+env = "DEV"
+port = 3030

@@ -4,8 +4,12 @@ use jsonwebtoken::errors::Error;
 use jsonwebtoken::TokenData;
 use warp::Filter;
 
+use util::sunrise_config;
+
 #[tokio::main]
 async fn main() {
+
+    let config = sunrise_config::init();
     
     let login = warp::path!("login" / String / String)
         .map(|uname: String, _pass: String|
@@ -44,7 +48,10 @@ async fn main() {
 
     let routes = warp::get().and(login.or(validate).or(in_role));
 
+    let port = config.get("port").ok().unwrap();
+    println!("{}", port);
+
     warp::serve(routes)
-        .run(([127, 0, 0, 1], 3030))
+        .run(([127, 0, 0, 1], port))
         .await;
 }
