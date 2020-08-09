@@ -12,7 +12,6 @@ async fn main() {
             // TODO: Validate against username and password
             token::make_token(b"secret_key", uname.as_str(), "user")
         ) 
-        //.and_then(|res: Result<String, Error>| async move {
         .and_then(|res| async move {
             match res {
                 Ok(t) => Ok(format!("{}", t)),
@@ -31,7 +30,19 @@ async fn main() {
             }
         });
 
-    let routes = warp::get().and(login.or(validate));
+    let in_role = warp::path!("in_role" / String / String)
+        .map(|_role: String, _token: String|
+            // TODO: Implement this
+            Err("Not in role.".to_string())
+        )
+        .and_then(|res: Result<String, String>| async move {
+            match res {
+                Ok(_) => Ok("Ok"),
+                Err(_) => Err(warp::reject::not_found())
+            }
+        });
+
+    let routes = warp::get().and(login.or(validate).or(in_role));
 
     warp::serve(routes)
         .run(([127, 0, 0, 1], 3030))
