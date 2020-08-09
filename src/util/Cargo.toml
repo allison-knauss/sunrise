@@ -6,3 +6,6 @@ edition = "2018"
 
 [dependencies]
 config = "0.9"
+tokio = "*"
+tokio-postgres = "*"
+refinery = { version = "0.3", features = ["tokio-postgres"] }

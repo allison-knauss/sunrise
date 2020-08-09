@@ -5,11 +5,20 @@ use jsonwebtoken::TokenData;
 use warp::Filter;
 
 use util::sunrise_config;
+use util::sunrise_db;
 
 #[tokio::main]
 async fn main() {
 
     let config = sunrise_config::init();
+
+    let mut client = sunrise_db::connect(&config).await.unwrap();
+
+    //sunrise_db::execute_action(&client, 
+    //    "INSERT INTO Context (id, name) VALUES(1, 'anonymous');").await.unwrap();
+    let res = sunrise_db::migrate(&mut client).await.unwrap();
+    println!("{:?}", res);
+
     
     let login = warp::path!("login" / String / String)
         .map(|uname: String, _pass: String|

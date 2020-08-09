@@ -1,4 +1,5 @@
 pub mod sunrise_config;
+pub mod sunrise_db;
 
 pub use crate::sunrise_config as config;
 

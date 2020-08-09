@@ -1,3 +1,8 @@
 a = 3
 env = "DEV"
 port = 3030
+dbhost = "localhost"
+dbport = 5432
+dbname = "sunrise"
+dbuser = "sunrise"
+dbpassword = "sunrise"

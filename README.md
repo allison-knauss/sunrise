@@ -7,6 +7,14 @@ Epic-scale game built in rust on amethyst
 
 Sunrise is a huge idea, meant to be something of a magnum opus. It is a game created from several different systems, each system big enough and interesting enough to be the core of its own game.
 
+## Running
+
+All server applications will be runnable via `docker-compose -f stack.yml up -d`. Client applications will be built as executables as appropriate. Currently the docker-compose stack only spins up a postgresql database to use. Connection information is set in the config in the util/ sub-project.
+
+## Database
+
+This project currently uses a single postgresql database. Interface for this database is implemented in `util::sunrise_db`. Configuration is the config file at `src/util/config.toml`.
+
 ## Roadmap
 
 To achieve the high concept, a series of proof-of-concept games will be built. First, games specifically about each system (defined below) will be created. Then games exploring the intersection between two or more systems will be created. Only then will Sunrise itself, with the weight of multiple titles and many hours behind it, be created. These games shall also include building tooling appropriate for the system(s) being used which can then be reused in the future. The purpose of creating these games is to help ensure that each system is fun and feels good on its own.
