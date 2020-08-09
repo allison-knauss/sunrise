@@ -8,7 +8,7 @@ edition = "2018"
 util = { path = "../util" }
 
 [target.'cfg(macos)'.dependencies]
-amethyst = { version = "0.15.0", features = ["metal", "renderer", "gltf", "animation"] }
+amethyst = { version = "0.15.0", features = ["vulkan", "renderer", "gltf", "animation"] }
 objc = "=0.2.6"
 
 [target.'cfg(unix)'.dependencies]
