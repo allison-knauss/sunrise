@@ -5,6 +5,14 @@ authors = ["Allison Knauss <piper.pandemos@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-amethyst = "0.10.0"
 util = { path = "../util" }
 
+[target.'cfg(macos)'.dependencies]
+amethyst = { version = "0.15.0", features = ["metal", "renderer", "gltf", "animation"] }
+objc = "=0.2.6"
+
+[target.'cfg(unix)'.dependencies]
+amethyst = { version = "0.15.0", features = ["vulkan", "renderer", "gltf", "animation"] }
+
+[target.'cfg(windows)'.dependencies]
+amethyst = { version = "0.15.0", features = ["vulkan", "renderer", "gltf", "animation"] }

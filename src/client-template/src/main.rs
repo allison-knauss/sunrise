@@ -1,14 +1,12 @@
-use amethyst::prelude::*;
-use amethyst::renderer::{
-    DisplayConfig,
-    DrawFlat2D,
-    //Event,
-    Pipeline,
-    RenderBundle,
-    Stage,
-    //VirtualKeyCode
+use amethyst::{
+    prelude::*,
+    renderer::{
+        plugins::{RenderFlat2D, RenderToWindow},
+        types::DefaultBackend,
+        RenderingBundle,
+    },
+    utils::application_root_dir,
 };
-use amethyst::utils::application_root_dir;
 
 pub struct TemplateGame;
 
@@ -17,18 +15,17 @@ impl SimpleState for TemplateGame {}
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
 
-    let path = format!("{}/resources/display_config.ron", application_root_dir());
-    let config = DisplayConfig::load(&path);
-    let pipe = Pipeline::build()
-        .with_stage(
-            Stage::with_backbuffer()
-                .clear_target([0.0, 0.0, 0.0, 1.0], 1.0)
-                .with_pass(DrawFlat2D::new()),
-        );
+    let app_root = application_root_dir()?;
+    let path = app_root.join("resources").join("display.ron");
+    println!("{}", path.as_path().display().to_string());
     let game_data = GameDataBuilder::default()
         .with_bundle(
-            RenderBundle::new(pipe, Some(config))
-                .with_sprite_sheet_processor()
+            RenderingBundle::<DefaultBackend>::new()
+                .with_plugin(
+                    RenderToWindow::from_config_path(path)?
+                        .with_clear([0.0, 0.0, 0.0, 1.0])
+                )
+                .with_plugin(RenderFlat2D::default()),
         )?;
     let mut game = Application::new("./", TemplateGame, game_data)?;
 
