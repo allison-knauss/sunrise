@@ -1,5 +1,5 @@
 [package]
-name = "server"
+name = "economy"
 version = "0.1.0"
 authors = ["Allison Knauss <piper.pandemos@gmail.com>"]
 edition = "2018"

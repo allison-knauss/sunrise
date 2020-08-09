@@ -52,5 +52,5 @@ Sunrise's concept games shall all be built on a shared platform including a micr
 
 ## References
 
-Amethyst game engine - https://github.com/amethyst/amethyst
-Specs Parallel ECS - https://github.com/slide-rs/specs
+- Amethyst game engine - https://github.com/amethyst/amethyst
+- Specs Parallel ECS - https://github.com/slide-rs/specs

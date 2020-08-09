@@ -14,7 +14,7 @@ members = [
 	"src/aaa",
 	"src/telemetry",
 	"src/router",
-	"src/server",
+	"src/economy",
 	"src/client-template",
 	"src/sunrise-entry-point",
 ]
